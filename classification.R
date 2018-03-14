@@ -1,4 +1,6 @@
 library(rpart)
+library(caret)
+library(ModelMetrics)
 # Train the model (to predict 'default')
 credit_model <- rpart(formula = default~., 
                       data = credit_train, 
