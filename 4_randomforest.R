@@ -1,4 +1,9 @@
 library(randomForest)
+source("split_data.R")
+library(ipred)
+
+library(ModelMetrics)
+library(caret)
 # Train a Random Forest
 set.seed(1)  # for reproducibility
 credit_model <- randomForest(formula = default ~ ., 
