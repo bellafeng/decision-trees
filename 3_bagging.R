@@ -1,5 +1,5 @@
 
-source("split_data.R")
+source("0_split_data.R")
 library(ipred)
 
 library(ModelMetrics)

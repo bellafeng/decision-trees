@@ -118,12 +118,12 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">3_bagging.R</h1>
 <h4 class="author"><em>gfeng</em></h4>
-<h4 class="date"><em>Wed Mar 14 11:46:57 2018</em></h4>
+<h4 class="date"><em>Mon Mar 19 16:03:44 2018</em></h4>
 
 </div>
 
 
-<pre class="r"><code>source(&quot;split_data.R&quot;)
+<pre class="r"><code>source(&quot;0_split_data.R&quot;)
 library(ipred)
 
 library(ModelMetrics)
@@ -151,7 +151,7 @@ print(credit_model)</code></pre>
 ## Call: bagging.data.frame(formula = default ~ ., data = credit_train, 
 ##     coob = TRUE)
 ## 
-## Out-of-bag estimate of misclassification error:  0.2762</code></pre>
+## Out-of-bag estimate of misclassification error:  0.2788</code></pre>
 <pre class="r"><code># Generate predicted classes using the model object
 class_prediction &lt;- predict(object = credit_model ,    
                             newdata = credit_test,  
@@ -164,13 +164,13 @@ print(class_prediction)</code></pre>
 ##  [35] no  no  no  no  no  no  no  no  no  yes no  no  no  yes no  yes yes
 ##  [52] no  no  yes no  no  no  no  no  no  no  no  no  no  no  yes no  no 
 ##  [69] no  no  yes no  no  yes no  no  no  no  no  no  no  no  no  no  no 
-##  [86] no  no  no  no  no  yes no  no  no  no  no  no  yes no  no  no  no 
+##  [86] no  no  no  no  no  yes no  yes no  no  no  no  yes no  no  no  no 
 ## [103] no  no  yes no  no  no  no  no  no  no  no  no  no  no  no  no  no 
 ## [120] no  no  no  yes no  no  no  no  no  no  no  no  no  no  no  no  no 
 ## [137] no  no  no  no  yes no  yes no  yes no  no  no  no  no  no  no  yes
 ## [154] no  no  no  no  no  no  no  no  yes no  no  no  no  yes yes no  no 
 ## [171] no  no  yes yes no  no  no  no  no  no  no  yes no  no  no  no  yes
-## [188] no  no  no  no  no  no  no  no  no  yes no  no  yes
+## [188] no  no  no  no  yes no  no  no  no  yes no  no  yes
 ## Levels: no yes</code></pre>
 <pre class="r"><code># Calculate the confusion matrix for the test set
 confusionMatrix(data = class_prediction,       
@@ -179,25 +179,25 @@ confusionMatrix(data = class_prediction,
 ## 
 ##           Reference
 ## Prediction  no yes
-##        no  127  37
-##        yes  11  25
+##        no  126  36
+##        yes  12  26
 ##                                           
 ##                Accuracy : 0.76            
 ##                  95% CI : (0.6947, 0.8174)
 ##     No Information Rate : 0.69            
-##     P-Value [Acc &gt; NIR] : 0.017828        
+##     P-Value [Acc &gt; NIR] : 0.0178277       
 ##                                           
-##                   Kappa : 0.3658          
-##  Mcnemar's Test P-Value : 0.000308        
+##                   Kappa : 0.3721          
+##  Mcnemar's Test P-Value : 0.0009009       
 ##                                           
-##             Sensitivity : 0.9203          
-##             Specificity : 0.4032          
-##          Pos Pred Value : 0.7744          
-##          Neg Pred Value : 0.6944          
+##             Sensitivity : 0.9130          
+##             Specificity : 0.4194          
+##          Pos Pred Value : 0.7778          
+##          Neg Pred Value : 0.6842          
 ##              Prevalence : 0.6900          
-##          Detection Rate : 0.6350          
-##    Detection Prevalence : 0.8200          
-##       Balanced Accuracy : 0.6618          
+##          Detection Rate : 0.6300          
+##    Detection Prevalence : 0.8100          
+##       Balanced Accuracy : 0.6662          
 ##                                           
 ##        'Positive' Class : no              
 ## </code></pre>
@@ -250,8 +250,8 @@ print(credit_caret_model)</code></pre>
 ## Summary of sample sizes: 641, 640, 640, 639, 640 
 ## Resampling results:
 ## 
-##   ROC        Sens       Spec  
-##   0.7209775  0.8274968  0.4375</code></pre>
+##   ROC        Sens       Spec     
+##   0.7203687  0.8275126  0.4417553</code></pre>
 <pre class="r"><code># Inspect the contents of the model list 
 names(credit_caret_model)</code></pre>
 <pre><code>##  [1] &quot;method&quot;       &quot;modelInfo&quot;    &quot;modelType&quot;    &quot;results&quot;     
@@ -262,7 +262,7 @@ names(credit_caret_model)</code></pre>
 ## [21] &quot;terms&quot;        &quot;coefnames&quot;    &quot;contrasts&quot;    &quot;xlevels&quot;</code></pre>
 <pre class="r"><code># Print the CV AUC
 credit_caret_model$results[,&quot;ROC&quot;]</code></pre>
-<pre><code>## [1] 0.7209775</code></pre>
+<pre><code>## [1] 0.7203687</code></pre>
 <pre class="r"><code># Generate predictions on the test set
 pred &lt;- predict(object = credit_caret_model , 
                 newdata = credit_test,
@@ -274,13 +274,13 @@ credit_caret_model_test_auc &lt;- auc(actual = ifelse(credit_test$default == &qu
 
 # Print ipred::bagging test set AUC estimate
 print(credit_ipred_model_test_auc)</code></pre>
-<pre><code>## [1] 0.7845956</code></pre>
+<pre><code>## [1] 0.7809724</code></pre>
 <pre class="r"><code># Print caret &quot;treebag&quot; test set AUC estimate
 print(credit_caret_model_test_auc)</code></pre>
-<pre><code>## [1] 0.7764142</code></pre>
+<pre><code>## [1] 0.7762389</code></pre>
 <pre class="r"><code># Compare to caret 5-fold cross-validated AUC
 credit_caret_model$results[,2 ]</code></pre>
-<pre><code>## [1] 0.7209775</code></pre>
+<pre><code>## [1] 0.7203687</code></pre>
 
 
 
