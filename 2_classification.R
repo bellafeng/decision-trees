@@ -2,7 +2,7 @@ library(rpart)
 
 library(ModelMetrics)
 library(caret)
-source("split_data.R")
+source("0_split_data.R")
 # Train the model (to predict 'default')
 credit_model <- rpart(formula = default~., 
                       data = credit_train, 
