@@ -1,5 +1,5 @@
 library(rpart)
-
+library(rpart.plot)
 library(ModelMetrics)
 library(caret)
 source("0_split_data.R")
@@ -47,3 +47,5 @@ ce(actual = credit_test$default,
    predicted = pred1)
 ce(actual = credit_test$default, 
    predicted = pred2)  
+rpart.plot(x = credit_model, yesno = 2, type = 0, extra = 0)
+plotcp(credit_model1)
