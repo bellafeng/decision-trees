@@ -1,4 +1,4 @@
-credit <- read.csv("credit.csv")
+credit <- read.csv("https://assets.datacamp.com/production/course_3022/datasets/credit.csv")
 # Total number of rows in the credit data frame
 n <- nrow(credit)
 # Number of rows for the training set (80% of the dataset)
