@@ -60,32 +60,4 @@ set_cv <- makeResampleDesc("CV",iters = 3L)
 rf_tune <- tuneParams(learner = rf, resampling = set_cv, task = trainTask, par.set = rf_param, control = rancontrol, measures = acc)
 
 
-#load GBM
- getParamSet("classif.gbm")
- g.gbm <- makeLearner("classif.gbm", predict.type = "response")
-
-#specify tuning method
- rancontrol <- makeTuneControlRandom(maxit = 50L)
-
-#3 fold cross validation
- set_cv <- makeResampleDesc("CV",iters = 3L)
-
-#parameters
- gbm_par<- makeParamSet(
-  makeDiscreteParam("distribution", values = "bernoulli"),
-  makeIntegerParam("n.trees", lower = 100, upper = 1000), #number of trees
-  makeIntegerParam("interaction.depth", lower = 2, upper = 10), #depth of tree
-  makeIntegerParam("n.minobsinnode", lower = 10, upper = 80),
-  makeNumericParam("shrinkage",lower = 0.01, upper = 1)
-)
- 
- #tune parameters
- tune_gbm <- tuneParams(learner = g.gbm, task = trainTask,resampling = set_cv,measures = acc,par.set = gbm_par,control = rancontrol)
- 
- #check CV accuracy
- tune_gbm$y
- 
- #set parameters
- final_gbm <- setHyperPars(learner = g.gbm, par.vals = tune_gbm$x)
- 
  
