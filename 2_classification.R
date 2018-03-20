@@ -10,12 +10,22 @@ credit_model <- rpart(formula = default~.,
 
 # Look at the model output                      
 print(credit_model)
-
+rpart.plot(x = credit_model, yesno = 2, type = 0, extra = 0)
+plotcp(credit_model)
 # Generate predicted classes using the model object
 class_prediction <- predict(object = credit_model,  
                             newdata = credit_test,   
                             type = "class")  
 
+
+pred <- predict(object = credit_model, 
+                 newdata = credit_test,
+                 type = "class") 
+ce(actual = credit_test$default, 
+   predicted = pred)
+
+rpart.plot(x = credit_model, yesno = 2, type = 0, extra = 0)
+plotcp(credit_model)
 # Calculate the confusion matrix for the test set
 confusionMatrix(data = class_prediction,       
                 reference = credit_test$default)  
@@ -46,6 +56,10 @@ pred2 <- predict(object = credit_model2,
 ce(actual = credit_test$default, 
    predicted = pred1)
 ce(actual = credit_test$default, 
-   predicted = pred2)  
-rpart.plot(x = credit_model, yesno = 2, type = 0, extra = 0)
+   predicted = pred2)
+
+rpart.plot(x = credit_model1, yesno = 2, type = 0, extra = 0)
 plotcp(credit_model1)
+
+rpart.plot(x = credit_model2, yesno = 2, type = 0, extra = 0)
+plotcp(credit_model2)
